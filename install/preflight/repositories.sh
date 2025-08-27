@@ -14,7 +14,7 @@ if ! grep -q "omarchy" /etc/pacman.conf; then
 fi
 
 # Set mirrors to global ones only
-echo -e "Server = https://archlinuxarm.com/\$arch/\$repo/\nServer = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch" |
+echo -e "Server = https://archlinuxarm.org/\$arch/\$repo/\nServer = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch" |
   sudo tee /etc/pacman.d/mirrorlist >/dev/null
 
 # Only add Chaotic-AUR if the architecture is x86_64 so ARM users can build the packages
