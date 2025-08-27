@@ -1,5 +1,4 @@
 sudo pacman -S --noconfirm --needed \
-  1password-beta \
   1password-cli \
   alacritty \
   avahi \
@@ -69,8 +68,6 @@ sudo pacman -S --noconfirm --needed \
   nss-mdns \
   nvim \
   obs-studio \
-  obsidian \
-  omarchy-chromium \
   pamixer \
   pinta \
   playerctl \
@@ -86,7 +83,6 @@ sudo pacman -S --noconfirm --needed \
   satty \
   signal-desktop \
   slurp \
-  spotify \
   starship \
   sushi \
   swaybg \
@@ -120,3 +116,12 @@ sudo pacman -S --noconfirm --needed \
   yaru-icon-theme \
   yay \
   zoxide
+
+if [ -z "$OMARCHY_ARM" ]; then
+
+sudo pacman -S --noconfirm --needed \
+  1password-beta \
+  obsidian \
+  omarchy-chromium \
+  spotify \
+fi
