@@ -65,6 +65,8 @@ jobs:
             rm -rf "$pkg"
           done
 
+          curl -fSL -O https://pkgs.omarchy.org/x86_64/omarchy.db
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
