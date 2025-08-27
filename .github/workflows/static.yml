@@ -31,12 +31,45 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Copy AUR packages
+        run: |
+          set -euo pipefail
+
+          mkdir -p mirror/aarch64
+          cd mirror/aarch64
+
+          PKGS=(
+            "yay-bin"
+            "obsidian-bin"
+            "localsend-bin"
+            "omarchy-chromium-bin"
+            "walker-bin"
+            "wl-screenrec"
+            "python-terminaltexteffects"
+            "tzupdate"
+            "typora"
+            "ttf-ia-writer"
+          )
+
+          for pkg in "${PKGS[@]}"; do
+            echo "Processing $pkg..."
+            git clone --depth 1 "https://aur.archlinux.org/${pkg}.git" "$pkg"
+            urls=$(grep -oP 'source_aarch64 = \K.*' "$pkg/.SRCINFO" || true)
+            for url in $urls; do
+              curl -fSL -O "$url"
+            done
+            rm -rf "$pkg"
+          done
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: mirror
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
