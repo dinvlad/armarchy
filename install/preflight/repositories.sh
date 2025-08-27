@@ -13,22 +13,6 @@ if [[ "$(uname -m)" == "x86_64" ]] && ! grep -q "omarchy" /etc/pacman.conf; then
   sudo sed -i '/^\[core\]/i [omarchy]\nSigLevel = Optional TrustAll\nServer = https:\/\/pkgs.omarchy.org\/$arch\/\n' /etc/pacman.conf
 fi
 
-# Prepend global mirrors to the existing mirrorlist
-if [ -f /etc/pacman.d/mirrorlist ]; then
-  # Save current mirrorlist
-  sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-  # Prepend new mirrors
-  echo -e "# Prepended global mirrors\nServer = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch\n" |
-    sudo tee /etc/pacman.d/mirrorlist.new >/dev/null
-  # Append existing mirrors
-  sudo cat /etc/pacman.d/mirrorlist.backup | sudo tee -a /etc/pacman.d/mirrorlist.new >/dev/null
-  # Replace mirrorlist with the new one
-  sudo mv /etc/pacman.d/mirrorlist.new /etc/pacman.d/mirrorlist
-else
-  # If mirrorlist doesn't exist, create it with the new mirrors
-  echo -e "Server = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch" |
-    sudo tee /etc/pacman.d/mirrorlist >/dev/null
-fi
 
 # Only add Chaotic-AUR if the architecture is x86_64 so ARM users can build the packages
 if [[ "$(uname -m)" == "x86_64" ]] && [ -z "$DISABLE_CHAOTIC" ]; then
